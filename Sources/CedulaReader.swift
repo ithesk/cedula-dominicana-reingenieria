@@ -110,6 +110,44 @@ final class CedulaReader: ObservableObject {
         ultimoDocumento = nil
     }
 
+#if DEBUG
+    /// Carga datos FICTICIOS para capturar pantallas sin cédula ni NFC (solo demo/capturas).
+    func cargarDemo() {
+        let foto = CedulaReader.imagenDemo()
+        datos = DatosCedula(
+            apellidos: "PEREZ GOMEZ", nombres: "JUAN CARLOS",
+            numeroDocumento: "AB1234567", nacionalidad: "DOM", paisEmisor: "DOM",
+            sexo: "M", fechaNacimiento: "900101", fechaExpiracion: "400101",
+            tipoDocumento: "I", foto: foto,
+            gruposLeidos: ["DG1", "DG2", "DG7", "DG11", "DG12", "DG13", "DG14"],
+            serialCompleto: "AB1234567", cedulaNacional: "224-0011223-4",
+            mrzCruda: "IDDOMAB1234567<77<22400112234<\n9001011M4001016DOMS<<<<<<<<<<0\nPEREZ<GOMEZ<<JUAN<CARLOS<<<<<<",
+            lugarNacimiento: "SANTO DOMINGO, R.D.", direccion: nil, telefono: nil,
+            profesion: nil, numeroPersonal: "224-0011223-4",
+            autoridadEmisora: "JUNTA CENTRAL ELECTORAL", fechaEmision: "20260812",
+            observaciones: nil, momentoPersonalizacion: nil, firma: foto,
+            dg13Texto: "NNN-NN-AAAA-NN-NNNNNNNN · 224 · 13449 · 1705 · 00", dg13Hex: "6D405C0A5F11…",
+            seguridad: Seguridad(pace: "PACEStatus.success", bac: "notDone",
+                                 chipAutenticado: true, sinManipular: true, firmaVerificada: false,
+                                 gruposDeclarados: ["DG1", "DG2", "DG3", "DG7", "DG11", "DG12", "DG13", "DG14"]))
+        autenticidad = ResultadoAuth(integridad: true, firmaAncladaCSCA: false,
+                                     habiaCSCA: false, veredicto: .integraSinAnclar)
+        estado = .ok
+    }
+
+    static func imagenDemo() -> UIImage {
+        let size = CGSize(width: 240, height: 300)
+        return UIGraphicsImageRenderer(size: size).image { _ in
+            UIColor.systemGray4.setFill()
+            UIRectFill(CGRect(origin: .zero, size: size))
+            let cfg = UIImage.SymbolConfiguration(pointSize: 130)
+            UIImage(systemName: "person.fill", withConfiguration: cfg)?
+                .withTintColor(.systemGray, renderingMode: .alwaysOriginal)
+                .draw(in: CGRect(x: 55, y: 60, width: 130, height: 180))
+        }
+    }
+#endif
+
     /// Reevalúa la autenticidad del último documento leído — para usar tras importar el CSCA
     /// sin tener que volver a acercar la cédula.
     func reverificarAutenticidad() {

@@ -61,6 +61,20 @@ struct ContentView: View {
     @State private var constanciaGuardada: URL?
 
     var body: some View {
+        Group {
+#if DEBUG
+            if let n = demoSeccion {
+                demoBody(n)
+            } else {
+                appReal
+            }
+#else
+            appReal
+#endif
+        }
+    }
+
+    private var appReal: some View {
         NavigationView {
             Form {
                 seccionMRZ
@@ -113,6 +127,42 @@ struct ContentView: View {
         }
         .navigationViewStyle(.stack)
     }
+
+#if DEBUG
+    /// Sección a mostrar en modo demo (para capturas), leída de la variable de entorno.
+    private var demoSeccion: Int? {
+        guard let s = ProcessInfo.processInfo.environment["DEMO_SECCION"], let n = Int(s) else { return nil }
+        return n
+    }
+
+    /// Renderiza UNA sola sección con datos ficticios, a pantalla completa.
+    private func demoBody(_ n: Int) -> some View {
+        NavigationView {
+            Form {
+                if let datos = lector.datos {
+                    switch n {
+                    case 0: seccionDecision(datos)
+                    case 1: seccionSeguridad(datos.seguridad)
+                    case 2: if let f = datos.foto { seccionTitular(f) }
+                    default: seccionResultado(datos)
+                    }
+                }
+            }
+            .navigationTitle(["Decisión", "Seguridad", "Titular", "Datos del chip"][min(max(n, 0), 3)])
+            .navigationBarTitleDisplayMode(.inline)
+        }
+        .navigationViewStyle(.stack)
+        .onAppear {
+            lector.cargarDemo()
+            resultadoFacial = ResultadoFacial(caraEnSelfie: true, caraEnReferencia: true,
+                puntuacion: 0.82, umbral: 0.62, livenessComprobado: true,
+                aptoProduccion: true, motivo: "Emparejamiento de demostración (datos ficticios).")
+            resultadoLiveness = ResultadoLiveness(soportado: true, vivo: true, profundidad3D: true,
+                retosSuperados: ["Parpadea", "Abre la boca"], imagen: nil, motivo: "Demo.")
+            consentimiento = true
+        }
+    }
+#endif
 
     private func verificarTitular(selfie: UIImage) {
         guard let referencia = lector.datos?.foto else { return }

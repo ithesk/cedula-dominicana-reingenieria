@@ -3,9 +3,10 @@
 **Autor: Pablo Holguín**
 
 Recorrido de la app `ValidadorCedula` (iOS): cada pantalla, el código fuente que la
-implementa y una explicación de todo lo que puede hacer. Las capturas de las pantallas
-posteriores a la lectura (autenticidad, titular, decisión) necesitan una **cédula física**
-—el simulador no tiene NFC—, así que esas se documentan con su código y su descripción.
+implementa y una explicación de todo lo que puede hacer. Todas las capturas son reales
+—de la app corriendo en el simulador—; las pantallas posteriores a la lectura se generan con
+un **modo demo** (`DEMO_SECCION`, solo en `DEBUG`) que inyecta **datos ficticios**, ya que el
+simulador no tiene NFC. Ningún dato real aparece en este documento.
 
 ---
 
@@ -62,6 +63,8 @@ datos = convertir(documento)
 **Resultado en pantalla:** foto del DG2, nombre, cédula nacional, serial, lugar de
 nacimiento, fecha de emisión, firma manuscrita, y la MRZ cruda desplegable.
 
+![Datos del chip (datos ficticios)](../capturas/05-datos.png)
+
 ---
 
 ## Fase 2 · Autenticidad (¿es genuina?)
@@ -93,6 +96,8 @@ CSCA (.pem)**. Al importarlo, reverifica sin releer la cédula y el veredicto sa
 
 Hoy, con una cédula real y sin CSCA, da **«Íntegro · falta anclar al emisor»** — la verdad
 exacta.
+
+![Sección de seguridad (datos ficticios)](../capturas/03-seguridad.png)
 
 ---
 
@@ -132,6 +137,8 @@ honestamente si el liveness/matching es de producción o orientativo.
 > Una foto o una pantalla son planas → no generan geometría 3D estable ni parpadean a demanda
 > → **fallan**. Deja claro en el pie que no está certificado (iBeta/ISO 30107-3).
 
+![Sección de titular (datos ficticios)](../capturas/04-titular.png)
+
 ---
 
 ## Fase 4 · Decisión + constancia
@@ -162,6 +169,8 @@ Consentimiento del titular: SÍ
 **Pantalla:** semáforo grande, las tres filas de control con su estado, un toggle de
 consentimiento (obligatorio) y el botón «Generar constancia».
 
+![Pantalla de decisión (datos ficticios)](../capturas/02-decision.png)
+
 ---
 
 ## Herramienta extra · Exploración del chip
@@ -186,3 +195,22 @@ PIN.
 - **No presume de liveness certificado** — marca lo local como no certificado.
 
 Diseño honesto: la app muestra exactamente lo que puede probar, y marca lo que no.
+
+---
+
+## Cómo se regeneran estas capturas
+
+Las pantallas posteriores a la lectura se capturan con un **modo demo** (solo en `DEBUG`) que
+inyecta datos ficticios y muestra una sección por lanzamiento, sin NFC ni cámara:
+
+```bash
+xcodebuild -scheme ValidadorCedula -configuration Debug \
+  -destination 'platform=iOS Simulator,name=iPhone 17' -derivedDataPath .build build
+xcrun simctl install booted .build/Build/Products/Debug-iphonesimulator/ValidadorCedula.app
+# 0=decisión · 1=seguridad · 2=titular · 3=datos
+SIMCTL_CHILD_DEMO_SECCION=0 xcrun simctl launch booted do.com.innovaciontecnologica.validadorcedula
+xcrun simctl io booted screenshot capturas/02-decision.png
+```
+
+El código del modo demo (`cargarDemo()` en `CedulaReader`, `demoBody` en `ContentView`) está
+bajo `#if DEBUG`, así que **nunca llega a un build de producción**.
