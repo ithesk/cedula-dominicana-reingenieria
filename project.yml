@@ -1,0 +1,33 @@
+name: ValidadorCedula
+options:
+  deploymentTarget: { iOS: "15.0" }
+  createIntermediateGroups: true
+
+packages:
+  NFCPassportReader:
+    url: https://github.com/AndyQ/NFCPassportReader.git
+    from: "2.0.0"
+
+targets:
+  ValidadorCedula:
+    type: application
+    platform: iOS
+    sources:
+      - path: Sources
+        excludes:
+          - "Info.plist"
+          - "Validador.entitlements"
+    dependencies:
+      - package: NFCPassportReader
+    settings:
+      base:
+        INFOPLIST_FILE: Sources/Info.plist
+        CODE_SIGN_ENTITLEMENTS: Sources/Validador.entitlements
+        PRODUCT_BUNDLE_IDENTIFIER: do.com.innovaciontecnologica.validadorcedula
+        GENERATE_INFOPLIST_FILE: "NO"
+        TARGETED_DEVICE_FAMILY: "1"
+        SWIFT_VERSION: "5.0"
+        # Fijado aquí para que sobreviva a los `xcodegen generate`: si solo se elige en
+        # Xcode › Signing & Capabilities, se pierde al regenerar el proyecto.
+        DEVELOPMENT_TEAM: 43R9TJSE6S
+        CODE_SIGN_STYLE: Automatic

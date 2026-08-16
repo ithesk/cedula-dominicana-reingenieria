@@ -1,0 +1,26 @@
+# === DATOS PERSONALES — NUNCA versionar ===
+# Ticket de PIN/PUK de la cédula (credenciales secretas).
+IMG_0191.JPG
+IMG_*.JPG
+IMG_*.jpg
+# Volcados del chip (foto, firma, MRZ, certificados) por si se copian aquí.
+grupos/
+grupos2/
+Documents/
+constancias/
+*.der
+*.bin
+csca-jce.pem
+cert-autenticacion.der
+# Trazas: contienen la llave del documento y datos personales.
+traza*.txt
+exploracion*.txt
+
+# === Generado / compilación ===
+ValidadorCedula.xcodeproj/
+.build/
+DerivedData/
+
+# === Sistema ===
+.DS_Store
+xcuserdata/

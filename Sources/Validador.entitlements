@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<!--
+	  Único entitlement de NFC que existe. "TAG" habilita NFCTagReaderSession, que es
+	  lo que usa NFCPassportReader para hablar ISO7816 con el chip.
+	  La lista de AID va en el Info.plist, no aquí: si se mete una clave de entitlement
+	  que Apple no reconoce, falla la firma del binario.
+	-->
+	<key>com.apple.developer.nfc.readersession.formats</key>
+	<array>
+		<string>TAG</string>
+	</array>
+</dict>
+</plist>

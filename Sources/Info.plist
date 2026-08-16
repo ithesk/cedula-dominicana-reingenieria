@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>es</string>
+	<key>CFBundleExecutable</key>
+	<string>$(EXECUTABLE_NAME)</string>
+	<key>CFBundleIdentifier</key>
+	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundleName</key>
+	<string>$(PRODUCT_NAME)</string>
+	<key>CFBundleDisplayName</key>
+	<string>Validador Cédula</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleShortVersionString</key>
+	<string>1.0</string>
+	<key>CFBundleVersion</key>
+	<string>1</string>
+	<key>LSRequiresIPhoneOS</key>
+	<true/>
+	<key>UILaunchScreen</key>
+	<dict/>
+	<key>UISupportedInterfaceOrientations</key>
+	<array>
+		<string>UIInterfaceOrientationPortrait</string>
+	</array>
+
+	<!-- Texto del diálogo del sistema al encender la antena NFC. -->
+	<key>NFCReaderUsageDescription</key>
+	<string>Acerca la cédula para validar la identidad.</string>
+
+	<!-- Texto del permiso de cámara: escáner de MRZ, selfie y liveness. -->
+	<key>NSCameraUsageDescription</key>
+	<string>Se usa la cámara para leer la MRZ, tomar el selfie y comprobar que hay una persona viva.</string>
+
+	<!--
+	  AID de la aplicación LDS1 de eMRTD (ICAO 9303). iOS solo deja seleccionar los AID
+	  declarados aquí; sin esta lista el SELECT falla aunque el chip enganche.
+	  OJO: esta clave va en el Info.plist, NO en el .entitlements.
+	-->
+	<key>com.apple.developer.nfc.readersession.iso7816.select-identifiers</key>
+	<array>
+		<!-- Aplicación LDS1 de eMRTD (ICAO 9303): la que lee NFCPassportReader. -->
+		<string>A0000002471001</string>
+		<!--
+		  Los otros cuatro applets salieron del EF.DIR de la propia tarjeta, no de
+		  adivinar. iOS exige declararlos aquí para poder hacerles SELECT.
+		-->
+		<string>D276000098446F6D4944</string>          <!-- DomRepEID -->
+		<string>D276000098436974697A656E4944</string>  <!-- CitizenID -->
+		<string>A00000006353534344</string>            <!-- SSCD -->
+		<string>A000000063504B43532D3135</string>      <!-- ePKI / PKCS#15 -->
+	</array>
+
+	<!--
+	  ⚠️ SOLO PARA DEPURAR — QUITAR ANTES DE PRODUCCIÓN.
+	  Hace que os.Logger persista el nivel Debug y deje de censurar los valores
+	  interpolados, que es lo único que permite ver la derivación BAC completa.
+	  El precio: la llave de acceso al documento queda escrita en el log del sistema.
+	-->
+	<key>OSLogPreferences</key>
+	<dict>
+		<key>do.com.innovaciontecnologica.validadorcedula</key>
+		<dict>
+			<key>DEFAULT-OPTIONS</key>
+			<dict>
+				<key>Enable-Private-Data</key>
+				<true/>
+				<key>Level</key>
+				<dict>
+					<key>Enable</key>
+					<string>Debug</string>
+					<key>Persist</key>
+					<string>Debug</string>
+				</dict>
+			</dict>
+		</dict>
+	</dict>
+
+	<!-- Deja el archivo de traza visible en la app Archivos, para poder sacarlo a mano. -->
+	<key>UIFileSharingEnabled</key>
+	<true/>
+	<key>LSSupportsOpeningDocumentsInPlace</key>
+	<true/>
+</dict>
+</plist>
