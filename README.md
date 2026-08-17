@@ -268,16 +268,11 @@ offline**. Detalle de cada pantalla con capturas y código en [`docs/GUIA-APP.md
 | **3 · Titular** | emparejamiento (Core ML) + liveness (ARKit·TrueDepth); **modelo como hueco** | construida |
 | **4 · Decisión** | semáforo de los tres controles + constancia mínima (Ley 172-13) | construida |
 
-<table>
-<tr>
-<td width="25%" align="center"><img src="capturas/05-datos.png" alt="Datos del chip"><br><sub><b>Datos del chip</b></sub></td>
-<td width="25%" align="center"><img src="capturas/03-seguridad.png" alt="Seguridad"><br><sub><b>Fase 2 · Seguridad</b></sub></td>
-<td width="25%" align="center"><img src="capturas/04-titular.png" alt="Titular"><br><sub><b>Fase 3 · Titular</b></sub></td>
-<td width="25%" align="center"><img src="capturas/02-decision.png" alt="Decisión"><br><sub><b>Fase 4 · Decisión</b></sub></td>
-</tr>
-</table>
+| Datos del chip | Fase 2 · Seguridad | Fase 3 · Titular | Fase 4 · Decisión |
+|:---:|:---:|:---:|:---:|
+| ![Datos del chip](capturas/05-datos.png) | ![Seguridad](capturas/03-seguridad.png) | ![Titular](capturas/04-titular.png) | ![Decisión](capturas/02-decision.png) |
 
-<sub>Capturas reales de la app en el simulador, con datos ficticios.</sub>
+_Capturas reales de la app en el simulador, con datos ficticios._
 
 **Los dos huecos enchufables** (sin tocar el flujo):
 
