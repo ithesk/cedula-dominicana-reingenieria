@@ -13,6 +13,10 @@ en el flujo de trabajo, y no en la propia traza, está dicho.
 
 📄 Dossier visual: `dossier.html` · 📱 Guía de la app con capturas: `docs/GUIA-APP.md`
 
+![Elementos de seguridad de la nueva cédula dominicana, anverso y reverso](info-NUEVA-CEDULA.jpg)
+
+<sub>Infografía divulgativa de la JCE / prensa · ejemplar de muestra con datos ficticios (cédula 001-0000000-9) · incluida solo como ilustración.</sub>
+
 ---
 
 ## Índice
@@ -263,6 +267,17 @@ offline**. Detalle de cada pantalla con capturas y código en [`docs/GUIA-APP.md
 | **2 · Genuina** | cadena de Passive Authentication; **CSCA como hueco** | construida |
 | **3 · Titular** | emparejamiento (Core ML) + liveness (ARKit·TrueDepth); **modelo como hueco** | construida |
 | **4 · Decisión** | semáforo de los tres controles + constancia mínima (Ley 172-13) | construida |
+
+<table>
+<tr>
+<td width="25%" align="center"><img src="capturas/05-datos.png" alt="Datos del chip"><br><sub><b>Datos del chip</b></sub></td>
+<td width="25%" align="center"><img src="capturas/03-seguridad.png" alt="Seguridad"><br><sub><b>Fase 2 · Seguridad</b></sub></td>
+<td width="25%" align="center"><img src="capturas/04-titular.png" alt="Titular"><br><sub><b>Fase 3 · Titular</b></sub></td>
+<td width="25%" align="center"><img src="capturas/02-decision.png" alt="Decisión"><br><sub><b>Fase 4 · Decisión</b></sub></td>
+</tr>
+</table>
+
+<sub>Capturas reales de la app en el simulador, con datos ficticios.</sub>
 
 **Los dos huecos enchufables** (sin tocar el flujo):
 
